@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata: 
+  name: appteam1-demo
+spec: 
+  generators: 
+    - git:    
+        repoURL: https://github.com/abryson-redhat/argocd-demo.git
+        revision: HEAD    
+        directories:    
+        - path: gitops/manifests/busunit1/integration/teams/appteam1/apps
+  template: 
+    metadata:  
+      name: ‘{{path[0]}}’
+  spec: 
+    project: default 
+    source:  
+      repoURL: https://github.com/hseligson1/appset-demo.git  
+      targetRevision: HEAD  
+      path: ‘{{path}}’ 
+    destination:  
+      server: https://kubernetes.default.svc  
+      namespace: ‘{{path.basename}}’
