@@ -3,13 +3,13 @@ kind: ArgoCD
 metadata:
   finalizers:
   - argoproj.io/finalizer
-  generation: 2
+  generation: 3
   labels:
     busunit: busunit1
-    env: dev
+    env: test
     team: appteam1
-  name: appteam1-argocd-dev
-  namespace: appteam1-demo-dev
+  name: appteam1-argocd-test
+  namespace: appteam1-demo-test
 spec:
   controller:
     processors: {}
@@ -38,7 +38,7 @@ spec:
   repo: {}
   server:
     autoscale:
-      enabled: true
+      enabled: false
     grpc:
       ingress:
         enabled: false
