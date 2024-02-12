@@ -11,7 +11,21 @@ metadata:
   name: appteam1-argocd-test
   namespace: appteam1-demo-test
 spec:
+  applicationSet:
+    enabled: true
+    env:
+    - name: C_IDENTIFIER
+      value: test
+    webhookServer:
+      ingress:
+        enabled: false
+      route:
+        enabled: false
   controller:
+    enabled: true
+    env:
+    - name: C_IDENTIFIER
+      value: test
     processors: {}
     sharding: {}
   grafana:
@@ -49,5 +63,4 @@ spec:
     service:
       type: ""
   tls:
-    ca:
-      configMapName: kube-root-ca.crt
+    ca: {}

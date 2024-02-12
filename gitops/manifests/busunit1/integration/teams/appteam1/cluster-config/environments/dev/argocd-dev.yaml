@@ -3,7 +3,7 @@ kind: ArgoCD
 metadata:
   finalizers:
   - argoproj.io/finalizer
-  generation: 2
+  generation: 3
   labels:
     busunit: busunit1
     env: dev
@@ -11,7 +11,18 @@ metadata:
   name: appteam1-argocd-dev
   namespace: appteam1-demo-dev
 spec:
+  applicationSet:
+    enabled: true
+    env:
+    - name: C_IDENTIFIER
+      value: dev
+    webhookServer:
+      ingress:
+        enabled: false
+      route:
+        enabled: false
   controller:
+    enabled: true
     processors: {}
     sharding: {}
   grafana:
@@ -38,7 +49,7 @@ spec:
   repo: {}
   server:
     autoscale:
-      enabled: true
+      enabled: false
     grpc:
       ingress:
         enabled: false
