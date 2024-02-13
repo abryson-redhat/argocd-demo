@@ -3,12 +3,12 @@ entries:
   springboot-demo:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2024-02-13T16:53:34.460115396-05:00"
+    created: "2024-02-13T17:49:02.019932361-05:00"
     description: A Helm chart for Kubernetes
     digest: 4fbb3d9c13a985d90306c09bd64295760317ff05378a9eb391f9f922970eb1ad
     name: springboot-demo
     type: application
     urls:
-    - https://raw.githubusercontent.com/abryson-redhat/springboot-demo/springboot-demo/gh-pages/springboot-demo-0.1.0.tgz
+    - https://raw.githubusercontent.com/abryson-redhat/argocd-demo/gh-pages/springboot-demo-0.1.0.tgz
     version: 0.1.0
-generated: "2024-02-13T16:53:34.459740021-05:00"
+generated: "2024-02-13T17:49:02.019706152-05:00"
