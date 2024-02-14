@@ -17,6 +17,10 @@ spec:
     repoURL: https://github.com/abryson-redhat/argocd-demo.git
     path: "gitops/manifests/busunit1/integration/teams/appteam1/apps/springboot-demo"
     targetRevision: argocd-demo
+      # Helm values files for overriding values in the helm chart
+      # The path is relative to the spec.source.path directory defined above
+      valueFiles:
+      - values-dev.yaml
       #ref: argocd-demo
       #chart: springboot-demo
       #helm:
