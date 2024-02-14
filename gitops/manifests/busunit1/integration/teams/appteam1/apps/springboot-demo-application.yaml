@@ -16,7 +16,7 @@ spec:
   source:
     repoURL: https://github.com/abryson-redhat/argocd-demo.git
     path: "gitops/manifests/busunit1/integration/teams/appteam1/apps/springboot-demo"
-    targetRevision: HEAD
+    targetRevision: argocd-demo
       #ref: argocd-demo
       #chart: springboot-demo
       #helm:
