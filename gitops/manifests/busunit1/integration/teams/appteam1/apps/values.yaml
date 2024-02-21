@@ -1,7 +1,16 @@
 applications:
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: "appteam1-demo"
 spec:
   destination:
     server: https://kubernetes.default.svc
   source:
     repoURL: https://github.com/argoproj/argocd-example-apps
     targetRevision: HEAD
+
