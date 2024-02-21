@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: appteam1-bootstrap-applications
+  namespace: appteam1-argocd-dev
+spec:
+  generators:
+    - git:
+        repoURL: git@github.com:abryson-redhat/argocd-demo.git
+        revision: argocd-demo
+        # here it will read the paths under configs and the subpaths under the config paths
+        files:
+          - path: "gitops/manifests/busunit1/integration/teams/appteam1/apps/*/configs/*"
+  template:
+    metadata:
+      namespace: appteam1-demo-dev
+      # you can use the path strings with / delimiter as variables
+      name: "{{path[2]}}-{{path.basename}}"
+    spec:
+      project: default
+      source:
+        helm:
+          # specify different values file based on directories variables
+          valueFiles:
+            - "{{path[2]}}/configs/{{path.basename}}/values.yaml"
+            - "{{path[2]}}/configs/values.yaml"
+        path: gitops/manifests/busunit1/integration/teams/appteam1/apps
+        repoURL: git@github.com:abryson-redhat/argocd-demo.git
+        targetRevision: argocd-demo
+      syncPolicy:
+        automated:
+          prune: true
+      destination:
+        # specify different destinations
+        namespace: appteam1-demo-dev
+        server: https://kubernetes.default.svc
