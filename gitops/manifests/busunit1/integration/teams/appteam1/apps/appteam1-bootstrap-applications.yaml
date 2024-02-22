@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: appteam1-bootstrap-applications
-  namespace: appteam1-argocd-dev
+  namespace: appteam1-demo-dev
 spec:
   generators:
     - git:
