@@ -10,7 +10,7 @@ spec:
         revision: argocd-demo
         # here it will read the paths under configs and the subpaths under the config paths
         files:
-          - path: "gitops/manifests/busunit1/integration/teams/appteam1/apps/*/configs/*"
+          - path: "gitops/manifests/busunit1/integration/teams/appteam1/apps/*/configs/dev/*"
   template:
     metadata:
       namespace: appteam1-demo-dev
