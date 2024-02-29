@@ -1,8 +1,8 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: appteam1-bootstrap-applications
-  namespace: appteam1-demo-dev
+  name: {{.Values.teamName}}-bootstrap-applications
+  namespace: {{.Values.teamName}}-demo-{{.Values.environment}}
 spec:
   generators:
     - git:
@@ -11,10 +11,11 @@ spec:
         # here it will read the paths under configs and the subpaths under the config paths
         #files:
         directories:
-          - path: "gitops/manifests/busunit1/integration/teams/appteam1/apps/*/configs/dev/*"
+          - path: "gitops/manifests/{{.Values.busUnit}}/integration/teams/{{.Values.teamName}}/apps/*/configs/{{.Values.environment}}/*"
   template:
     metadata:
-      namespace: appteam1-demo-dev
+      teamName: "{{path[5]}}"
+      namespace: "{{teamName}}-demo-{{path.basename}}"
       # you can use the path strings with / delimiter as variables
       name: "{{path[7]}}-{{path.basename}}"
     spec:
@@ -24,7 +25,7 @@ spec:
           # specify different values file based on directories variables
           valueFiles:
             - "{{path[7]}}/configs/{{path.basename}}/values.yaml"
-        path: gitops/manifests/busunit1/integration/teams/appteam1/apps
+        path: "gitops/manifests/{{.Values.busUnit}}/integration/teams/{{.Values.teamname}}/apps"
           #path: "{{path[7]}}"
         repoURL: git@github.com:abryson-redhat/argocd-demo.git
         targetRevision: argocd-demo
@@ -34,5 +35,5 @@ spec:
           selfHeal: true
       destination:
         # specify different destinations
-        namespace: appteam1-demo-dev
+        namespace: "{{.Values.teamName}}-demo-{{.Values.environment}}"
         server: https://kubernetes.default.svc

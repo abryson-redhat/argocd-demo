@@ -1,4 +1,8 @@
-applications:
+#applications:
+environment: dev
+busUnit: busunit1
+teamName: appteam1
+namespace: appteam1-demo-dev
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
