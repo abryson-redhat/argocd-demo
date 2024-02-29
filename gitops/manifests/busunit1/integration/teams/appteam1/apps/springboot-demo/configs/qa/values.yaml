@@ -1,11 +1,11 @@
-# Default values for python-demo.
+# Default values for springboot-demo.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
 
 image:
-  repository: image-registry.openshift-image-registry.svc:5000/appteam1-demo-dev/python-demo
+  repository: image-registry.openshift-image-registry.svc:5000/appteam1-demo-qa/springboot-demo
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
@@ -14,6 +14,16 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
+source:
+  git:
+    uri: https://github.com/abryson-redhat/springboot-demo.git
+    ref: "springboot-demo"
+    sourceSecret: git-ssh
+  image:
+    name: ubi8-openjdk-17
+    tag: 1.12
+    namespace: openshift
+
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
@@ -21,7 +31,7 @@ serviceAccount:
   annotations: {}
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: "python-demo"
+  name: "springboot-demo"
 
 podAnnotations: {}
 
@@ -44,7 +54,7 @@ service:
   targetPort: 8080
 
 route:
-  name: python-demo
+  name: springboot-demo
   targetPort: http-8080
   tls:
     termination: edge
@@ -72,8 +82,7 @@ resources:
     memory: "1Gi"
   requests:
     cpu: "10m"
-    memory: "50Mi"
-
+    memory: "180Mi"
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -97,4 +106,3 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
-
