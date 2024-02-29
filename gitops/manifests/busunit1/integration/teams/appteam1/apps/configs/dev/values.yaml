@@ -1,7 +1,9 @@
 #applications:
+appName: appteam1-apps-dev
 environment: dev
 busUnit: busunit1
 teamName: appteam1
+appProject: default
 namespace: appteam1-demo-dev
 serviceAccount:
   # Specifies whether a service account should be created
@@ -14,7 +16,18 @@ serviceAccount:
 spec:
   destination:
     server: https://kubernetes.default.svc
+    namespace: appteam1-demo-dev
   source:
     repoURL: https://github.com/argoproj/argocd-example-apps
     targetRevision: argocd-demo
+    helm:
+      valueFiles:
+      - configs/dev/values.yaml
+    path: gitops/manifests/busunit1/integration/teams/appteam1/apps
+    repoURL: git@github.com:abryson-redhat/argocd-demo.git
+    targetRevision: argocd-demo
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
 
