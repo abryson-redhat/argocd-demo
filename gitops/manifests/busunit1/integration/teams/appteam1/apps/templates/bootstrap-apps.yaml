@@ -1,16 +1,15 @@
 apiVersion: v1
-items:
-- apiVersion: argoproj.io/v1alpha1
-  kind: Application
-  metadata:
-    name: {{ .Values.appName }}
-    namespace:  {{ .Values.namespace }}
-  spec:
-    destination:
-      {{- with .Values.spec.destination }}
-      namespace: {{ .namespace }}
-      server: {{ .server }}
-      {{- end }}
-    project: {{ .appProject }}
-    {{ .Values.spec.source }}
-    {{ .Values.spec.syncPolicy }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ .Values.appName }}
+  namespace:  {{ .Values.namespace }}
+spec:
+  project: {{ .Values.appProject }}
+  destination:
+    {{- with .Values.spec.destination }}
+    namespace: {{ .namespace }}
+    server: {{ .server }}
+    {{- end }}
+  {{ .Values.spec.source . }}
+  {{ .Values.spec.syncPolicy . }}
