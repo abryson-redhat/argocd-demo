@@ -9,14 +9,14 @@ spec:
       - cluster: in-cluster
         url: https://kubernetes.default.svc
         enviroinment: dev
-        application: python-demo
+        app: python-demo
       - cluster: in-cluster
         url: https://kubernetes.default.svc
         enviroinment: dev
-        application: springboot-demo
+        app: springboot-demo
   template:
     metadata:
-      name: '{{application}}-{{environment}}'
+      name: '{{app}}-{{environment}}'
     spec:
       project: default
       source:
