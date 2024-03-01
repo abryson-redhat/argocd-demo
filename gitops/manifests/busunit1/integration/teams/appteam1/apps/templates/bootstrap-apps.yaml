@@ -20,7 +20,7 @@ spec:
       {{- range .helm.valueFiles }}
         - {{ . }}
       {{- end }}
-    path: {{ .source }}
+    path: {{ .path }}
     {{- end }}
   syncPolicy:
     {{- with .Values.spec.syncPolicy }}
