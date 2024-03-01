@@ -21,7 +21,7 @@ spec:
     repoURL: https://github.com/argoproj/argocd-example-apps
     targetRevision: argocd-demo
     helm:
-      valuesFiles:
+      valueFiles:
         - "configs/dev/values.yaml"
     path: gitops/manifests/busunit1/integration/teams/appteam1/apps
   syncPolicy:

@@ -11,5 +11,20 @@ spec:
     namespace: {{ .namespace }}
     server: {{ .server }}
     {{- end }}
-  {{ .Values.spec.source . }}
-  {{ .Values.spec.syncPolicy . }}
+  source:
+    {{- with .Values.spec.source }}
+    repoUrl: {{ .repoURL }}
+    targetRevision: {{ .targetRevision }}
+    helm:
+      valueFiles:
+      {{- range .helm.valueFiles }}
+        - {{ . }}
+      {{- end }}
+    path: {{ .source }}
+    {{- end }}
+  syncPolicy:
+    {{- with .Values.spec.syncPolicy }}
+    automated:
+      prune: {{ .automated.prune }}
+      selfHeal: {{ .automated.selfHeal }}
+    {{- end }}
