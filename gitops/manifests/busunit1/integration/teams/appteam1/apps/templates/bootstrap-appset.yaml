@@ -1,0 +1,37 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: {{ .Values.appName }}
+spec:
+  generators:
+  - list:
+      elements:
+      - cluster: in-cluster
+        url: https://kubernetes.default.svc
+        enviroinment: dev
+        application: python-demo
+      - cluster: in-cluster
+        url: https://kubernetes.default.svc
+        enviroinment: dev
+        application: springboot-demo
+  template:
+    metadata:
+      name: '{{application}}-{{environment}}'
+    spec:
+      project: default
+      source:
+        {{- with .Values.spec.source }}
+        repoURL: {{ .repoURL }}
+        targetRevision: {{ .targetRevision }}
+        helm:
+          valueFiles:
+          {{- range .helm.valueFiles }}
+            - {{ . }}
+          {{- end }}
+        path:  "{{ .path }}/{{application}}"
+        {{- end }}
+      destination:
+        {{- with .Values.spec.destination }}
+        namespace: {{ .namespace }}
+        server: {{ .server }}
+        {{- end }}
