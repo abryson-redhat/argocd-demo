@@ -18,7 +18,7 @@ spec:
     server: https://kubernetes.default.svc
     namespace: appteam1-demo-dev
   source:
-    repoURL: https://github.com/argoproj/argocd-example-apps
+    repoURL: git@github.com:abryson-redhat/argocd-demo.git
     targetRevision: argocd-demo
     helm:
       valueFiles:
