@@ -8,15 +8,15 @@ spec:
       elements:
       - cluster: in-cluster
         url: https://kubernetes.default.svc
-        enviroinment: dev
+        environment: dev
         app: python-demo
       - cluster: in-cluster
         url: https://kubernetes.default.svc
-        enviroinment: dev
+        environment: dev
         app: springboot-demo
   template:
     metadata:
-      name: '{{app}}-{{environment}}'
+      name: "{{app}}-{{environment}}"
     spec:
       project: default
       source:
@@ -28,7 +28,7 @@ spec:
           {{- range .helm.valueFiles }}
             - {{ . }}
           {{- end }}
-        path:  "{{ .path }}/{{application}}"
+        path:  "{{ .path }}/{{app}}"
         {{- end }}
       destination:
         {{- with .Values.spec.destination }}
