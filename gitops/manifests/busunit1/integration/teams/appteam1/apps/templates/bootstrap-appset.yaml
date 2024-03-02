@@ -8,15 +8,6 @@ spec:
       elements:
       - cluster: in-cluster
         url: https://kubernetes.default.svc
-        environment: 
-        app: appteam1-demo-dev
-        repoPath: "gitops/manifests/busunit1/integration/teams/appteam1/apps"
-        repoURL: "git@github.com:abryson-redhat/argocd-demo.git"
-        ref: argocd-demo
-        valueFile: "configs/dev/values.yaml"
-        namespace: appteam1-demo-dev
-      - cluster: in-cluster
-        url: https://kubernetes.default.svc
         environment: dev
         app: python-demo
         repoPath: "gitops/manifests/busunit1/integration/teams/appteam1/apps/python-demo"
