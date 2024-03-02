@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+  name: appteam1-root-dev
+  namespace: appteam1-demo-dev
+spec:
+  destination:
+    namespace: appteam1-demo-dev
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: gitops/manifests/busunit1/integration/teams/appteam1/apps
+    repoURL: git@github.com:abryson-redhat/argocd-demo.git
+    targetRevision: argocd-demo
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
