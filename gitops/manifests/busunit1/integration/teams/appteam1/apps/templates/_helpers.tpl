@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "appteam1-apps.name" -}}
+{{- define "appteam1-apps-iac.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "appteam1-apps.fullname" -}}
+{{- define "appteam1-apps-iac.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "appteam1-apps.chart" -}}
+{{- define "appteam1-apps-iac.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "appteam1-apps.labels" -}}
-helm.sh/chart: {{ include "appteam1-apps.chart" . }}
-{{ include "appteam1-apps.selectorLabels" . }}
+{{- define "appteam1-apps-iac.labels" -}}
+helm.sh/chart: {{ include "appteam1-apps-iac.chart" . }}
+{{ include "appteam1-apps-iac.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,17 +45,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "appteam1-apps.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "appteam1-apps.name" . }}
+{{- define "appteam1-apps-iac.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "appteam1-apps-iac.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "appteam1-apps.serviceAccountName" -}}
+{{- define "appteam1-apps-iac.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "appteam1-apps.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "appteam1-apps-iac.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
