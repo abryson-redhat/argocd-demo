@@ -5,6 +5,8 @@ metadata:
   - resources-finalizer.argocd.argoproj.io
   name: appteam1-root-dev
   namespace: appteam1-demo-dev
+  labels:
+    teamdisplay: root
 spec:
   destination:
     namespace: appteam1-demo-dev
