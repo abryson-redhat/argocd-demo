@@ -6,7 +6,7 @@ metadata:
   name: appteam1-root-dev
   namespace: appteam1-demo-dev
   labels:
-    teamdisplay: root
+    demo/team.display.level: root
 spec:
   destination:
     namespace: appteam1-demo-dev
