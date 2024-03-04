@@ -5,9 +5,11 @@ metadata:
   - argoproj.io/finalizer
   generation: 3
   labels:
-    busunit: busunit1
-    env: dev
-    team: appteam1
+    demo/team.name: appteam1
+    demo/team.busunit: busunit1
+    demo/env: dev
+    demo/type: iac
+    demo/provisioner: argocd
   name: appteam1-argocd-dev
   namespace: appteam1-demo-dev
 spec:
