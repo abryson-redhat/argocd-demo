@@ -1,0 +1,65 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: appteam1-demo-dev-project
+  namespace: appteam1-demo-dev
+spec:
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  description: appteam1-demo DEV GitOps Project
+  destinations:
+    - name: in-cluster
+      namespace: appteam1-demo-dev
+      server: 'https://kubernetes.default.svc'
+  roles:
+    - description: Group to developers to deploy on DEV environment
+      groups:
+        - appteam1-developers
+      name: developers
+      policies:
+        - >-
+          p, proj:appteam1-demo-dev-project:developers, applications, get,
+          appteam1-demo-dev-project/*, allow
+        - >-
+          p, proj:appteam1-demo-dev-project:developers, applications, create,
+          appteam1-demo-dev-project/*, allow
+        - >-
+          p, proj:appteam1-demo-dev-project:developers, applications, update,
+          appteam1-demo-dev-project/*, allow
+        - >-
+          p, proj:appteam1-demo-dev-project:developers, applications, delete,
+          appteam1-demo-dev-project/*, allow
+        - >-
+          p, proj:appteam1-demo-dev-project:developers, applications, sync,
+          appteam1-demo-dev-project/*, allow
+        - >-
+          p, proj:appteam1-demo-dev-project:developers, applications, override,
+          appteam1-demo-dev-project/*, allow
+    - description: Group for production deployment
+      groups:
+        - appteam1-ops
+      name: qa-rollout
+      policies:
+        - >-
+          p, proj:appteam1-demo-dev-project:qa-rollout, applications, get,
+          appteam1-demo-dev-project/*, allow
+        - >-
+          p, proj:appteam1-demo-dev-project:qa-rollout, applications, create,
+          appteam1-demo-dev-project/*, deny
+        - >-
+          p, proj:appteam1-demo-dev-project:qa-rollout, applications, update,
+          appteam1-demo-dev-project/*, deny
+        - >-
+          p, proj:appteam1-demo-dev-project:qa-rollout, applications, delete,
+          appteam1-demo-dev-project/*, deny
+        - >-
+          p, proj:appteam1-demo-dev-project:production-rollout, applications, sync,
+          appteam1-demo-dev-project/*, deny
+        - >-
+          p, proj:appteam1-demo-dev-project:production-rollout, applications, override,
+          appteam1-demo-dev-project/*, deny
+  sourceRepos:
+  - git@github.com:abryson-redhat/argocd-demo.git
+  - git@github.com:abryson-redhat/springboot-demo.git
+  - git@github.com:abryson-redhat/python-demo.git

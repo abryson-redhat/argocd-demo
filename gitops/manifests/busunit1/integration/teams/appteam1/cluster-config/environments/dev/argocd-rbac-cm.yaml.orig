@@ -1,0 +1,23 @@
+apiVersion: v1
+data:
+  policy.csv: ""
+  policy.default: role:readonly
+  scopes: '[groups]'
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2024-03-06T00:26:22Z"
+  labels:
+    app.kubernetes.io/managed-by: appteam1-argocd-dev
+    app.kubernetes.io/name: argocd-rbac-cm
+    app.kubernetes.io/part-of: argocd
+  name: argocd-rbac-cm
+  namespace: appteam1-demo-dev
+  ownerReferences:
+  - apiVersion: argoproj.io/v1beta1
+    blockOwnerDeletion: true
+    controller: true
+    kind: ArgoCD
+    name: appteam1-argocd-dev
+    uid: 08581ded-7bab-4573-bbaa-537b1c6243e2
+  resourceVersion: "327708"
+  uid: 42129cb3-9a5a-4927-a130-ddd7e1cf7699

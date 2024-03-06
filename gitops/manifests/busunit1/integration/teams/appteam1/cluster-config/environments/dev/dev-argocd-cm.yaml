@@ -1,0 +1,38 @@
+apiVersion: v1
+data:
+  accounts.bwheatley: apiKey, login
+  accounts.abryson: apiKey, login
+  accounts.pdouble: apiKey, login
+  accounts.gsinghal: apiKey, login
+  admin.enabled: "true"
+  application.instanceLabelKey: app.kubernetes.io/instance
+  application.resourceTrackingMethod: label
+  configManagementPlugins: ""
+  ga.anonymizeusers: "false"
+  ga.trackingid: ""
+  help.chatText: ""
+  help.chatUrl: ""
+  kustomize.buildOptions: ""
+  oidc.config: ""
+  repositories: ""
+  repository.credentials: ""
+  resource.exclusions: ""
+  resource.inclusions: ""
+  statusbadge.enabled: "false"
+  url: https://appteam1-argocd-dev-server-appteam1-demo-dev.apps.cluster-rz8gc.dynamic.redhatworkshops.io
+    #users.anonymous.enabled: "false"
+kind: ConfigMap
+metadata:
+  labels:
+    app.kubernetes.io/managed-by: appteam1-argocd-dev
+    app.kubernetes.io/name: argocd-cm
+    app.kubernetes.io/part-of: argocd
+  name: argocd-cm
+  namespace: appteam1-demo-dev
+  ownerReferences:
+  - apiVersion: argoproj.io/v1beta1
+    blockOwnerDeletion: true
+    controller: true
+    kind: ArgoCD
+    name: appteam1-argocd-dev
+    uid: 08581ded-7bab-4573-bbaa-537b1c6243e2

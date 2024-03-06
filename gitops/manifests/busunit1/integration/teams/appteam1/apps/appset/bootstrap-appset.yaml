@@ -28,7 +28,7 @@ spec:
     metadata:
       name: "{{app}}-{{environment}}"
     spec:
-      project: default
+      project: appteam1-demo-dev-project
       source:
         repoURL: "{{repoURL}}"
         targetRevision: "{{ref}}"
@@ -43,4 +43,3 @@ spec:
         automated:
           prune: true
           selfHeal: true
-

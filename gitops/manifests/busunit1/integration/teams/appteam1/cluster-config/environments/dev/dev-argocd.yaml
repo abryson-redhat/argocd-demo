@@ -13,6 +13,11 @@ metadata:
   name: appteam1-argocd-dev
   namespace: appteam1-demo-dev
 spec:
+  extraConfig:
+    "accounts.abryson": "apiKey, login"
+    "accounts.bwheatley": "apiKey, login"
+    "accounts.gsinghal": "apiKey, login"
+    "accounts.pdouble": "apiKey, login"
   applicationSet:
     enabled: true
     env:

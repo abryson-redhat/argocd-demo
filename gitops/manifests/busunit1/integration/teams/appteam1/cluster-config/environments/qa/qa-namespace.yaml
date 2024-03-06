@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+  labels:
+    kubernetes.io/metadata.name: appteam1-demo-qa
+    demo/team.name: appteam1
+    demo/team.busunit: busunit1
+    demo/env: qa
+    demo/type: iac
+    demo/provisioner: argocd
+  name: appteam1-demo-qa
+spec:
+  finalizers:
+  - kubernetes

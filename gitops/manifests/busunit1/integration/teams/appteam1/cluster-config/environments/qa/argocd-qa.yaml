@@ -6,16 +6,16 @@ metadata:
   generation: 3
   labels:
     busunit: busunit1
-    env: test
+    env: qa
     team: appteam1
-  name: appteam1-argocd-test
-  namespace: appteam1-demo-test
+  name: appteam1-argocd-qa
+  namespace: appteam1-demo-qa
 spec:
   applicationSet:
     enabled: true
     env:
     - name: C_IDENTIFIER
-      value: test
+      value: qa
     webhookServer:
       ingress:
         enabled: false
@@ -25,7 +25,7 @@ spec:
     enabled: true
     env:
     - name: C_IDENTIFIER
-      value: test
+      value: qa
     processors: {}
     sharding: {}
   grafana:
