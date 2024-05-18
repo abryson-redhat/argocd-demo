@@ -1,0 +1,33 @@
+#applications:
+appName: appteam1-apps-qa
+environment: qa
+busUnit: busunit1
+teamName: appteam1
+appProject: default
+namespace: appteam1-demo-qa
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: "appteam1-demo"
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: appteam1-demo-qa
+  source:
+    repoURL: https://github.com/argoproj/argocd-example-apps
+    targetRevision: argocd-demo
+    helm:
+      valueFiles:
+      - configs/qa/values.yaml
+    path: gitops/manifests/busunit1/integration/teams/appteam1/apps
+    repoURL: git@github.com:abryson-redhat/argocd-demo.git
+    targetRevision: argocd-demo
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+

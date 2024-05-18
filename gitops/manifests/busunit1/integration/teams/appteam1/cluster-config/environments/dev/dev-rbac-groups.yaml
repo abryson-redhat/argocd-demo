@@ -1,0 +1,22 @@
+---
+kind: Group
+apiVersion: user.openshift.io/v1
+metadata:
+  name: appteam1-developers
+users:
+  - abryson
+  - bwheatley
+---
+kind: Group
+apiVersion: user.openshift.io/v1
+metadata:
+  name: appteam1-guests
+users:
+  - gsinghal
+---
+kind: Group
+apiVersion: user.openshift.io/v1
+metadata:
+  name: appteam1-ops
+users:
+  - pdouble

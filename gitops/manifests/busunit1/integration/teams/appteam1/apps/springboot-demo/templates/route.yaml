@@ -1,0 +1,19 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  annotations:
+  name: {{ .Values.route.name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  port:
+    targetPort: {{ .Values.service.name }}
+  tls:
+    {{- with .Values.route.tls }}
+    insecureEdgeTerminationPolicy: {{ .insecureEdgeTerminationPolicy }}
+    termination: {{ .termination }}
+    {{- end }}
+  to:
+    kind: Service
+    name: {{ include "springboot-demo.fullname" . }}
+    weight: 100
+  wildcardPolicy: None

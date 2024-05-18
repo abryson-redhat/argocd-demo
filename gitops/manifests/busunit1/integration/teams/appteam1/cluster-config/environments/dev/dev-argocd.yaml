@@ -1,0 +1,71 @@
+apiVersion: argoproj.io/v1beta1
+kind: ArgoCD
+metadata:
+  finalizers:
+  - argoproj.io/finalizer
+  generation: 3
+  labels:
+    demo/team.name: appteam1
+    demo/team.busunit: busunit1
+    demo/env: dev
+    demo/type: iac
+    demo/provisioner: argocd
+  name: appteam1-argocd-dev
+  namespace: appteam1-demo-dev
+spec:
+  extraConfig:
+    "accounts.abryson": "apiKey, login"
+    "accounts.bwheatley": "apiKey, login"
+    "accounts.gsinghal": "apiKey, login"
+    "accounts.pdouble": "apiKey, login"
+  applicationSet:
+    enabled: true
+    env:
+    - name: C_IDENTIFIER
+      value: dev
+    webhookServer:
+      ingress:
+        enabled: false
+      route:
+        enabled: false
+  controller:
+    enabled: true
+    processors: {}
+    sharding: {}
+  grafana:
+    enabled: false
+    ingress:
+      enabled: false
+    route:
+      enabled: false
+  ha:
+    enabled: false
+  initialSSHKnownHosts: {}
+  monitoring:
+    enabled: false
+  notifications:
+    enabled: false
+  prometheus:
+    enabled: false
+    ingress:
+      enabled: false
+    route:
+      enabled: false
+  rbac: {}
+  redis: {}
+  repo: {}
+  server:
+    autoscale:
+      enabled: false
+    grpc:
+      ingress:
+        enabled: false
+    ingress:
+      enabled: false
+    route:
+      enabled: true
+    service:
+      type: ""
+  tls:
+    ca:
+      configMapName: kube-root-ca.crt

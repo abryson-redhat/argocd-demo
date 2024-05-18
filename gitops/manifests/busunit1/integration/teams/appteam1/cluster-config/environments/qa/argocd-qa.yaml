@@ -1,0 +1,66 @@
+apiVersion: argoproj.io/v1beta1
+kind: ArgoCD
+metadata:
+  finalizers:
+  - argoproj.io/finalizer
+  generation: 3
+  labels:
+    busunit: busunit1
+    env: qa
+    team: appteam1
+  name: appteam1-argocd-qa
+  namespace: appteam1-demo-qa
+spec:
+  applicationSet:
+    enabled: true
+    env:
+    - name: C_IDENTIFIER
+      value: qa
+    webhookServer:
+      ingress:
+        enabled: false
+      route:
+        enabled: false
+  controller:
+    enabled: true
+    env:
+    - name: C_IDENTIFIER
+      value: qa
+    processors: {}
+    sharding: {}
+  grafana:
+    enabled: false
+    ingress:
+      enabled: false
+    route:
+      enabled: false
+  ha:
+    enabled: false
+  initialSSHKnownHosts: {}
+  monitoring:
+    enabled: false
+  notifications:
+    enabled: false
+  prometheus:
+    enabled: false
+    ingress:
+      enabled: false
+    route:
+      enabled: false
+  rbac: {}
+  redis: {}
+  repo: {}
+  server:
+    autoscale:
+      enabled: false
+    grpc:
+      ingress:
+        enabled: false
+    ingress:
+      enabled: false
+    route:
+      enabled: true
+    service:
+      type: ""
+  tls:
+    ca: {}
