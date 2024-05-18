@@ -1,0 +1,19 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  annotations:
+    openshift.io/host.generated: "true"
+    argocd.argoproj.io/sync-wave: "7"
+  labels:
+    app: springboot-postgres-demo
+  name: springboot-postgres-demo
+  namespace: appteam1-demo-dev
+spec:
+  host: springboot-postgres-demo-appteam1-demo-dev.apps.cluster-tkx6b.dynamic.redhatworkshops.io
+  port:
+    targetPort: port-1
+  to:
+    kind: Service
+    name: springboot-postgres-demo
+    weight: 100
+  wildcardPolicy: None

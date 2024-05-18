@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: springboot-postgres-demo
+  annotations:
+    argocd.argoproj.io/sync-wave: "6"
+  name: springboot-postgres-demo
+  namespace: appteam1-demo-dev
+spec:
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: port-1
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  - name: port-2
+    port: 8443
+    protocol: TCP
+    targetPort: 8443
+  - name: port-3
+    port: 8778
+    protocol: TCP
+    targetPort: 8778
+  selector:
+    deploymentconfig: springboot-postgres-demo
+  sessionAffinity: None
+  type: ClusterIP

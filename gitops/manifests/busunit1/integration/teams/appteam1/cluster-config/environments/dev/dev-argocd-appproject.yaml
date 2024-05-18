@@ -62,4 +62,5 @@ spec:
   sourceRepos:
   - git@github.com:abryson-redhat/argocd-demo.git
   - git@github.com:abryson-redhat/springboot-demo.git
+  - git@github.com:abryson-redhat/springboot-postgres-demo.git
   - git@github.com:abryson-redhat/python-demo.git

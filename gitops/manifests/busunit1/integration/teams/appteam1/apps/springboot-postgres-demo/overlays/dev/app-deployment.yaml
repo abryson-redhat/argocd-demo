@@ -1,0 +1,118 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+  labels:
+    app: springboot-postgres-demo
+  name: springboot-postgres-demo
+  namespace: appteam1-demo-dev
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    deploymentconfig: springboot-postgres-demo
+  strategy:
+    activeDeadlineSeconds: 21600
+    resources: {}
+    rollingParams:
+      intervalSeconds: 1
+      maxSurge: 25%
+      maxUnavailable: 25%
+      timeoutSeconds: 600
+      updatePeriodSeconds: 1
+    type: Rolling
+  template:
+    metadata:
+      annotations:
+      labels:
+        deploymentconfig: springboot-postgres-demo
+    spec:
+      containers:
+        - image: nexus-registry-nexus.apps.cluster-vkngf.dynamic.redhatworkshops.io/smbc-demo/springboot-postgres-demo:shab7f264436df7ac62bc7e768c1dd5657934202c6f
+          imagePullPolicy: Always
+          name: springboot-postgres-demo
+          env:
+            - name: PGHOST
+              valueFrom:
+                secretKeyRef:
+                  name: init-db-auth
+                  key: PGHOST
+            - name: PGPORT
+              valueFrom:
+                secretKeyRef:
+                  name: init-db-auth
+                  key: PGPORT
+            - name: DBUSER
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql
+                  key: database-user
+            - name: DBPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql
+                  key: database-password
+            - name: POSTGRESQL_URL
+              value: jdbc:postgresql://$(PGHOST):$(PGPORT)/petclinic?user=$(DBUSER)&password=$(DBPASSWORD)
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+            - containerPort: 8443
+              protocol: TCP
+            - containerPort: 8778
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      initContainers:
+        - name: psql-client-container
+          image: nexus-registry-nexus.apps.cluster-vkngf.dynamic.redhatworkshops.io/smbc-demo/psql-client:shab7f264436df7ac62bc7e768c1dd5657934202c6f
+          env:
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: init-db-auth
+                  key: PGPASSWORD
+            - name: PGUSER
+              valueFrom:
+                secretKeyRef:
+                  name: init-db-auth
+                  key: PGUSER
+            - name: PGHOST
+              valueFrom:
+                secretKeyRef:
+                  name: init-db-auth
+                  key: PGHOST
+            - name: PGPORT
+              valueFrom:
+                secretKeyRef:
+                  name: init-db-auth
+                  key: PGPORT
+          command: ['bash', '-c', 'psql < /temp/user.sql && psql -d petclinic < /temp/schema_drop.sql']
+          volumeMounts:
+            - name: db-user-volume
+              mountPath: /temp
+              readOnly: true
+      volumes:
+        - name: db-user-volume
+          secret:
+            secretName: init-db-secret
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+  test: false
+  triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+          - springboot-postgres-demo
+        from:
+          kind: ImageStreamTag
+          name: springboot-postgres-demo:latest
+          namespace: appteam1-demo-dev
+        lastTriggeredImage: image-registry.openshift-image-registry.svc:5000/appteam1-demo-dev/springboot-postgres-demo@sha256:507a50e4d34c48f77fba52f616b40d64aa88821592a12079c22ed45f621b8ad4
+      type: ImageChange
