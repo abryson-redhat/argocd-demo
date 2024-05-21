@@ -29,7 +29,7 @@ spec:
         deploymentconfig: springboot-postgres-demo
     spec:
       containers:
-        - image: nexus-registry-nexus.apps.cluster-vkngf.dynamic.redhatworkshops.io/smbc-demo/springboot-postgres-demo:shab7f264436df7ac62bc7e768c1dd5657934202c6f
+        - image: nexus-registry-nexus.apps.cluster-vkngf.dynamic.redhatworkshops.io/repository/smbc-demo/springboot-postgres-demo:latest
           imagePullPolicy: Always
           name: springboot-postgres-demo
           env:
@@ -67,7 +67,7 @@ spec:
           terminationMessagePolicy: File
       initContainers:
         - name: psql-client-container
-          image: nexus-registry-nexus.apps.cluster-vkngf.dynamic.redhatworkshops.io/smbc-demo/psql-client:shab7f264436df7ac62bc7e768c1dd5657934202c6f
+          image: nexus-registry-nexus.apps.cluster-vkngf.dynamic.redhatworkshops.io/repository/smbc-demo/psql-client:latest
           env:
             - name: PGPASSWORD
               valueFrom:
