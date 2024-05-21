@@ -6,7 +6,7 @@ metadata:
   labels:
     app: springboot-postgres-demo
   name: springboot-postgres-demo
-  namespace: appteam1-demo-dev
+  namespace: appteam1-demo-qa
 spec:
   replicas: 1
   revisionHistoryLimit: 10
@@ -29,7 +29,7 @@ spec:
         deploymentconfig: springboot-postgres-demo
     spec:
       containers:
-      - image: image-registry.openshift-image-registry.svc:5000/appteam1-demo-dev/springboot-postgres-demo@latest
+      - image: image-registry.openshift-image-registry.svc:5000/appteam1-demo-qa/springboot-postgres-demo@latest
         imagePullPolicy: Always
         name: springboot-postgres-demo
         env:
@@ -67,7 +67,7 @@ spec:
         terminationMessagePolicy: File
       initContainers:
       - name: psql-client-container
-        image: image-registry.openshift-image-registry.svc:5000/appteam1-demo-dev/psql-client:latest
+        image: image-registry.openshift-image-registry.svc:5000/appteam1-demo-qa/psql-client:latest
         env:
         - name: PGPASSWORD
           valueFrom:
@@ -113,6 +113,6 @@ spec:
       from:
         kind: ImageStreamTag
         name: springboot-postgres-demo:latest
-        namespace: appteam1-demo-dev
-      lastTriggeredImage: image-registry.openshift-image-registry.svc:5000/appteam1-demo-dev/springboot-postgres-demo@sha256:507a50e4d34c48f77fba52f616b40d64aa88821592a12079c22ed45f621b8ad4
+        namespace: appteam1-demo-qa
+      lastTriggeredImage: image-registry.openshift-image-registry.svc:5000/appteam1-demo-qa/springboot-postgres-demo@sha256:507a50e4d34c48f77fba52f616b40d64aa88821592a12079c22ed45f621b8ad4
     type: ImageChange

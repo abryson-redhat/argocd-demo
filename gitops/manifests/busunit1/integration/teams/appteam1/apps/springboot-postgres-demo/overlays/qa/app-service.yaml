@@ -6,7 +6,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "6"
   name: springboot-postgres-demo
-  namespace: appteam1-demo-dev
+  namespace: appteam1-demo-qa
 spec:
   internalTrafficPolicy: Cluster
   ipFamilies:

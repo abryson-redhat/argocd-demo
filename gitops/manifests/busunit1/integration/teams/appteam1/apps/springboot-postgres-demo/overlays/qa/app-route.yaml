@@ -7,9 +7,8 @@ metadata:
   labels:
     app: springboot-postgres-demo
   name: springboot-postgres-demo
-  namespace: appteam1-demo-dev
+  namespace: appteam1-demo-qa
 spec:
-  host: springboot-postgres-demo-appteam1-demo-dev.apps.cluster-tkx6b.dynamic.redhatworkshops.io
   port:
     targetPort: port-1
   to:

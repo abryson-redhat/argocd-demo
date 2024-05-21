@@ -5,7 +5,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "3"
   labels:
   name: postgresql
-  namespace: appteam1-demo-dev
+  namespace: appteam1-demo-qa
 spec:
   replicas: 1
   revisionHistoryLimit: 10

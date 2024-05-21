@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/component: postgresql-db
     app.kubernetes.io/instance: postgresql-db
   name: postgresql-db
-  namespace: appteam1-demo-dev
+  namespace: appteam1-demo-qa
 spec:
 # clusterIP: 172.31.168.105
 # clusterIPs:

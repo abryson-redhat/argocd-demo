@@ -1,6 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: appteam1-demo-qa
+namespace: appteam1-demo-dev
 
 patches:
   - app-deployment.yaml
@@ -9,9 +9,6 @@ patches:
   - db-deployment.yaml
   - db-pvc.yaml
   - db-service.yaml
-  - init-db-auth-secret.yaml
-  - init-db-secret.yaml
-  - postgresql-secret.yaml
 
 bases:
 - ../../base
