@@ -3,32 +3,7 @@ kind: ApplicationSet
 metadata:
   name: appteam1-apps-dev
 spec:
-  goTemplate: true
-  goTemplateOptions: ["missingkey=error"]
   generators:
-  - git:
-      repoURL: https://github.com/abryson-redhat/argocd-demo.git
-      revision: helm
-      directories:
-      - path: gitops/manifests/busunit1/integration/teams/appteam1/apps/*
-      - exclude: true
-        path: gitops/manifests/busunit1/integration/teams/appteam1/apps/appset
-  template:
-    metadata:
-      name: '{{.path.basename}}'
-    spec:
-      project: "my-project"
-      source:
-        repoURL: https://github.com/argoproj/argo-cd.git
-        targetRevision: helm
-        path: '{{.path.path}}'
-      destination:
-        server: https://kubernetes.default.svc
-        namespace: appteam1-demo-dev
-      syncPolicy:
-        syncOptions:
-        - CreateNamespace=true
-
   - list:
       elements:
       - cluster: in-cluster
