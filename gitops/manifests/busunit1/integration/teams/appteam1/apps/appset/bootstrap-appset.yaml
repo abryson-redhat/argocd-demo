@@ -17,7 +17,7 @@ spec:
     metadata:
       name: '{{.path.basename}}'
     spec:
-#     project: "appteam1-demo-dev-project"
+      project: "default"
       source:
         repoURL: https://github.com/abryson-redhat/argocd-demo.git
         targetRevision: helm
