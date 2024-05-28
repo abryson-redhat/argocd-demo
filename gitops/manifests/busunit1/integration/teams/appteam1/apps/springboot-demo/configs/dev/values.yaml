@@ -4,10 +4,10 @@
 
 replicaCount: 1
 image:
-  repository: image-registry.openshift-image-registry.svc:5000/appteam1-demo-dev/springboot-demo
+  repository: nexus-registry-nexus.apps.cluster-bcttf.dynamic.redhatworkshops.io/repository/smbc-demo/springboot-demo
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "shab25c3e557ea86a7710cc7a7d01907c56e48f3d75"
+  tag: "latest"
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
