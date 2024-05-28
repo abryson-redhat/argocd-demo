@@ -22,9 +22,11 @@ This operator will be installed on CICD environment target clusters (eg. DEV clu
 
 Within the namespace, we will have an *ArgoCD* custom resource instance.  That resource is responsible for all Continuous Delivery to this cluster for this team.
 
+</br>
 
-<img src="argocd_execution_tree.jpg" alt="ArgoCD decision tree" width="200"/>
+<img src="https://github.com/abryson-redhat/argocd-demo/blob/helm/images/argocd_execution_tree.jpg" alt="ArgoCD decision tree" style="float: left; margin-right: 10px;"/>
 
+</br>
 
 ### Deployments - Helm vs Kustomize
 The <span style="color:blue">springboot-demo</span> application will use Helm for deployments.  Helm is a popular package management tool used by many Kubernetes shops.  
