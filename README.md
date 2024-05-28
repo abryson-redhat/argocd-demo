@@ -71,6 +71,7 @@ The manifests for `helm` deployments will be kept in the *helm* branch of this *
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;qa-argocd.yaml
 
 <br/>
+
 ###### Kustomize
 ---
 
