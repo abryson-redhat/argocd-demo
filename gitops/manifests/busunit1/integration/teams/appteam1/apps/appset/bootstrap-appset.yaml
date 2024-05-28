@@ -17,54 +17,17 @@ spec:
     metadata:
       name: '{{.path.basename}}'
     spec:
-      project: "my-project"
+      project: "appteam1-demo-dev-project"
       source:
         repoURL: https://github.com/argoproj/argo-cd.git
         targetRevision: helm
         path: '{{.path.path}}'
+        helm:
+          valueFiles:
+          - '{{.path.path}}/configs/dev/values.yaml'
       destination:
         server: https://kubernetes.default.svc
         namespace: appteam1-demo-dev
       syncPolicy:
         syncOptions:
-        - CreateNamespace=true
-
-  - list:
-      elements:
-      - cluster: in-cluster
-        url: https://kubernetes.default.svc
-        environment: dev
-        app: python-demo
-        repoPath: "gitops/manifests/busunit1/integration/teams/appteam1/apps/python-demo"
-        repoURL: "git@github.com:abryson-redhat/argocd-demo.git"
-        ref: argocd-demo
-        valueFile: "configs/dev/values.yaml"
-        namespace: appteam1-demo-dev
-      - cluster: in-cluster
-        url: https://kubernetes.default.svc
-        environment: dev
-        app: springboot-demo
-        repoPath: "gitops/manifests/busunit1/integration/teams/appteam1/apps/springboot-demo"
-        repoURL: "git@github.com:abryson-redhat/argocd-demo.git"
-        ref: argocd-demo
-        valueFile: "configs/dev/values.yaml"
-        namespace: appteam1-demo-dev
-  template:
-    metadata:
-      name: "{{app}}-{{environment}}"
-    spec:
-      project: appteam1-demo-dev-project
-      source:
-        repoURL: "{{repoURL}}"
-        targetRevision: "{{ref}}"
-        helm:
-          valueFiles:
-            - "{{valueFile}}"
-        path: "{{repoPath}}"
-      destination:
-        namespace: "{{namespace}}"
-        server: "{{url}}"
-      syncPolicy:
-        automated:
-          prune: true
-          selfHeal: true
+        - CreateNamespace=false

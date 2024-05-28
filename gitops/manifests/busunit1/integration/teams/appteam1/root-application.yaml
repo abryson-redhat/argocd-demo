@@ -15,7 +15,7 @@ spec:
   source:
     path: gitops/manifests/busunit1/integration/teams/appteam1/apps/appset
     repoURL: git@github.com:abryson-redhat/argocd-demo.git
-    targetRevision: argocd-demo
+    targetRevision: helm
   syncPolicy:
     automated:
       prune: true
