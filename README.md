@@ -133,37 +133,82 @@ The manifests for `helm` deployments will be kept in the *helm* branch of this *
 <p>An <span style="color:blue">ApplicationSet</span> is simply a set of applications.  It implements a number of [generators](https://argocd-applicationset.readthedocs.io/en/stable/Generators/).  We are primarily interested in the [Git Generator](https://argocd-applicationset.readthedocs.io/en/stable/Generators-Git/).  Specifically, the Git Directory generator.</p>
 
 
-At the top of the ArgoCD execution tree is a
+
+
+###### Helm based deployments
+At the top of the ArgoCD execution tree is a root application. It points to an ApplicationSet that generates Application instances.
+
+Each instance is created for a given folder listed in the parent path.  
+
+> **Root Application**
+
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+  name: appteam1-root-dev
+  namespace: appteam1-demo-dev
+  labels:
+    demo/team.display.level: root-helm
+spec:
+  destination:
+    namespace: appteam1-demo-dev
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: gitops/manifests/busunit1/integration/teams/appteam1/apps/appset
+    repoURL: git@github.com:abryson-redhat/argocd-demo.git
+    targetRevision: helm
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+```
+
+> ApplicationSet
 ```yaml
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: appteam1-apps-dev
+  name: appteam1-apps-helm-dev
 spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
   generators:
-  - list:
-      elements:
-      - cluster: in-cluster
-        url: https://kubernetes.default.svc
-        environment: dev
-        app: python-demo
-        repoPath: "gitops/manifests/busunit1/integration/teams/appteam1/apps/python-demo"
-        repoURL: "git@github.com:abryson-redhat/argocd-demo.git"
-        ref: argocd-demo
-        valueFile: "configs/dev/values.yaml"
+  - git:
+      repoURL: https://github.com/abryson-redhat/argocd-demo.git
+      revision: helm
+      directories:
+      - path: gitops/manifests/busunit1/integration/teams/appteam1/apps/*
+      - exclude: true
+        path: gitops/manifests/busunit1/integration/teams/appteam1/apps/appset
+  template:
+    metadata:
+      name: '{{.path.basename}}'
+    spec:
+      project: "default"
+      source:
+        repoURL: https://github.com/abryson-redhat/argocd-demo.git
+        targetRevision: helm
+        path: '{{.path.path}}'
+        helm:
+          valueFiles:
+          - 'configs/dev/values.yaml'
+      destination:
+        server: https://kubernetes.default.svc
         namespace: appteam1-demo-dev
-      - cluster: in-cluster
-        url: https://kubernetes.default.svc
-        environment: dev
-        app: springboot-demo
-        repoPath: "gitops/manifests/busunit1/integration/teams/appteam1/apps/springboot-demo"
-        repoURL: "git@github.com:abryson-redhat/argocd-demo.git"
-        ref: argocd-demo
-        valueFile: "configs/dev/values.yaml"
-        namespace: appteam1-demo-dev
+      syncPolicy:
+        syncOptions:
+        - CreateNamespace=false
 ```
 
+> Auto-generated application
 
+```yaml
+
+```
 
 ## `springboot-demo` Project
 This is a simple springboot based Rest Controller helloworld application. It has a `Containerfile` for createing an OCI image.  The image will be built using the CI Github Actions portion of this demo.  Which will not be addressed in this document. 
