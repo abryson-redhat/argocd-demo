@@ -21,7 +21,7 @@ spec:
       source:
         repoURL: https://github.com/abryson-redhat/argocd-demo.git
         targetRevision: kustomize
-        path: '{{.path.path}}'
+        path: '{{.path.path}}/overlays/dev'
       destination:
         server: https://kubernetes.default.svc
         namespace: appteam1-demo-dev
