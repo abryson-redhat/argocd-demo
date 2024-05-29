@@ -3,43 +3,28 @@ kind: ApplicationSet
 metadata:
   name: appteam1-apps-dev
 spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
   generators:
-  - list:
-      elements:
-      - cluster: in-cluster
-        url: https://kubernetes.default.svc
-        environment: dev
-        app: python-demo
-        repoPath: "gitops/manifests/busunit1/integration/teams/appteam1/apps/python-demo"
-        repoURL: "git@github.com:abryson-redhat/argocd-demo.git"
-        ref: argocd-demo
-        valueFile: "configs/dev/values.yaml"
-        namespace: appteam1-demo-dev
-      - cluster: in-cluster
-        url: https://kubernetes.default.svc
-        environment: dev
-        app: springboot-demo
-        repoPath: "gitops/manifests/busunit1/integration/teams/appteam1/apps/springboot-demo"
-        repoURL: "git@github.com:abryson-redhat/argocd-demo.git"
-        ref: argocd-demo
-        valueFile: "configs/dev/values.yaml"
-        namespace: appteam1-demo-dev
+  - git:
+      repoURL: https://github.com/abryson-redhat/argocd-demo.git
+      revision: kustomize
+      directories:
+      - path: gitops/manifests/busunit1/integration/teams/appteam1/apps/*
+      - exclude: true
+        path: gitops/manifests/busunit1/integration/teams/appteam1/apps/appset
   template:
     metadata:
-      name: "{{app}}-{{environment}}"
+      name: '{{.path.basename}}'
     spec:
-      project: appteam1-demo-dev-project
+      project: "default"
       source:
-        repoURL: "{{repoURL}}"
-        targetRevision: "{{ref}}"
-        helm:
-          valueFiles:
-            - "{{valueFile}}"
-        path: "{{repoPath}}"
+        repoURL: https://github.com/abryson-redhat/argocd-demo.git
+        targetRevision: kustomize
+        path: '{{.path.path}}'
       destination:
-        namespace: "{{namespace}}"
-        server: "{{url}}"
+        server: https://kubernetes.default.svc
+        namespace: appteam1-demo-dev
       syncPolicy:
-        automated:
-          prune: true
-          selfHeal: true
+        syncOptions:
+        - CreateNamespace=false

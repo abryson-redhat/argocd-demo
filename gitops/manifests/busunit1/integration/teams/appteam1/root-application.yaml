@@ -6,12 +6,12 @@ metadata:
   name: appteam1-root-kustomize-dev
   namespace: appteam1-demo-dev
   labels:
-    demo/team.display.level: root
+    demo/team.display.level: root-kustomize
 spec:
   destination:
     namespace: appteam1-demo-dev
     server: https://kubernetes.default.svc
-  project: appteam1-demo-dev-project
+  project: default
   source:
     path: gitops/manifests/busunit1/integration/teams/appteam1/apps/appset
     repoURL: git@github.com:abryson-redhat/argocd-demo.git
