@@ -3,12 +3,24 @@ kind: Kustomization
 namespace: appteam1-demo-dev
 
 patches:
-  - app-deployment.yaml
-  - app-route.yaml
-  - app-service.yaml
-  - db-deployment.yaml
-  - db-pvc.yaml
-  - db-service.yaml
+- path: app-deployment.yaml
+  target:
+    kind: Deployment
+- path: app-route.yaml
+  target:
+    kind: Route
+- path: app-service.yaml
+  target:
+    kind: Service
+- path: db-deployment.yaml
+  target:
+    kind: Deployment
+- path: db-pvc.yaml
+  target:
+    kind: PersistentVolumeClaim
+- path: db-service.yaml
+  target:
+    kind: Service
 
 bases:
 - ../../base
