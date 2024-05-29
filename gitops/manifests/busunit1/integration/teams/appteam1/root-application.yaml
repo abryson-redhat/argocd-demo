@@ -11,7 +11,7 @@ spec:
   destination:
     namespace: appteam1-demo-dev
     server: https://kubernetes.default.svc
-  project: appteam1-demo-dev-project
+# project: appteam1-demo-dev-project
   source:
     path: gitops/manifests/busunit1/integration/teams/appteam1/apps/appset
     repoURL: git@github.com:abryson-redhat/argocd-demo.git
