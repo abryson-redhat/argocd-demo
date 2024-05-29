@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: appteam1-apps-dev
+  name: appteam1-apps-kustomize-dev
 spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
