@@ -11,7 +11,9 @@
 
 
 ## Overview
-This project uses two applications `springboot-demo` and `springboot-postgres-demo` to demonstrate 
+This project uses two applications `springboot-demo` and `springboot-postgres-demo` to demonstrate ArgoCD as a **C**ontinuous **D**elivery tool.  It is a manifest repository for the two projects.
+
+ArgoCD synchronizes code changes real time with the runtime environment.
 
 ## Architecture
 [ArgoCD](https://argo-cd.readthedocs.io/en/stable/) is a popular GitOps platform.  It is owned by Red Hat.  So, we use it a lot in GitOps engagements.
@@ -20,7 +22,7 @@ For purposes of this demonstration, ArgoCD is implemented via [Red Hat GitOps Op
 
 This operator will be installed on CICD environment target clusters (eg. DEV cluster, QA cluster, etc).  Each cluster will have a demo namespace for the environment using this format "**\<app team name\>**-demo-**\<environment\>**".  For this example, appteam1 is the app team name and we will be demo'ing on the **dev** environment.
 
-Within the namespace, we will have an *ArgoCD* custom resource instance.  That resource is responsible for all Continuous Delivery to this cluster for this team.
+Within the namespace, we will have an *ArgoCD* custom resource instance.  The resource is responsible for all **C**ontinuous **D**elivery to this cluster for this team.
 
 <br/>
 
@@ -128,9 +130,9 @@ The manifests for `helm` deployments will be kept in the *helm* branch of this *
 
 
 ###### Application Set details
-<p>ArgoCD has 2 controllers for managing application deployment events.  The first is the `Application` controller.  It manages events triggered by Application resources.  The second is the `ApplicationSet` controller.  It manages events triggered by ApplicationSet resources.</p> 
+ArgoCD has 2 controllers for managing application deployment events.  The first is the **Application** controller.  It manages events triggered by Application resources.  The second is the **ApplicationSet** controller.  It manages events triggered by ApplicationSet resources. 
 
-<p>An <span style="color:blue">ApplicationSet</span> is simply a set of applications.  It implements a number of [generators](https://argocd-applicationset.readthedocs.io/en/stable/Generators/).  We are primarily interested in the [Git Generator](https://argocd-applicationset.readthedocs.io/en/stable/Generators-Git/).  Specifically, the Git Directory generator.</p>
+An <span style="color:blue">ApplicationSet</span> is simply a set of applications.  It implements a number of [generators](https://argocd-applicationset.readthedocs.io/en/stable/Generators/).  We are primarily interested in the [Git Generator](https://argocd-applicationset.readthedocs.io/en/stable/Generators-Git/).  Specifically, the Git Directory generator.
 
 
 
@@ -212,9 +214,6 @@ spec:
 
 ## `springboot-demo` Project
 This is a simple springboot based Rest Controller helloworld application. It has a `Containerfile` for createing an OCI image.  The image will be built using the CI Github Actions portion of this demo.  Which will not be addressed in this document. 
-
-
-
 
 
 
