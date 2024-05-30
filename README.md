@@ -42,14 +42,21 @@ An <span style="color:blue">ApplicationSet</span> is simply a set of application
 
 #### Continuous Delivery Sequencing
 
+This demo only addresses update scenarios triggered by image updates.  Other scenarios, where resource manifests are updated are automatically handled by ArgoCD's synchronization feature.
+
+For Helm based updates, the image pull specification in the environment specific `values.yaml` file is updated by the CI process.  This will trigger a synchromization on the deployment resource.
+
 ![Helm delivery sequencing](https://github.com/abryson-redhat/argocd-demo/blob/helm/images/cd_sequence_diagram_helm.png)
 
 
+
+For Kustomize based updates, the image pull specification is in the deployment.yaml manifest for a given environment.  That manifest will be updated by the CI process.  This will trigger a synchronization for the deployment resource.
+
 ![Kustomize delivery sequencing](https://github.com/abryson-redhat/argocd-demo/blob/helm/images/cd_sequence_diagram_kustomize.png)
 
-The <span style="color:blue">springboot-demo</span> application will use Helm for deployments.  Helm is a popular package management tool used by many Kubernetes shops.  
+The **springboot-demo** application will use Helm for deployments.  Helm is a popular package management tool used by many Kubernetes shops.  
 
-The <span style="color:blue">springboot-postgres-demo</span> application will leverage Kustomize.  Kustomize is a popular configuration management tool that can also be used to manage deployments.
+The **springboot-postgres-demo** application will leverage Kustomize.  [Kustomize](https://kustomize.io/) is a popular configuration management tool that can also be used to manage deployments.
 
 The manifests for `helm` deployments will be kept in the *helm* branch of this **argocd-demo** project.  The manifests for `kustomize` will be kept in the *kustomize* branch.
 
@@ -155,7 +162,7 @@ The manifests repository has the following structure:
 
 
 
-###### Helm ArgoCD manifests
+#### Helm ArgoCD manifests
 At the top of the ArgoCD execution tree is a root application. It points to an ApplicationSet that generates Application instances.
 
 Each instance is created for a given folder listed in the parent path.  
@@ -187,7 +194,7 @@ spec:
       selfHeal: true
 ```
 
-> ApplicationSet
+> **ApplicationSet**
 ```yaml
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
@@ -390,6 +397,34 @@ status:
     status: Synced
 
 ```
+
+#### Kustomize ArgoCD manifests
+Much like the Helm implementation, at the top of the ArgoCD execution tree is a root application. It points to an ApplicationSet that generates Application instances.
+
+Each instance is created for a given folder listed in the parent path.  
+
+The repository has only minor differences in the Application and ApplicationSet resource manifests.  
+
+The traditional base / overlay directory structure is implemented for this example.  Environment specific manifests are kept in the overlay directories.
+
+> **Root Application**
+
+```yaml
+
+```
+
+> **ApplicationSet**
+```yaml
+
+```
+
+
+> Auto-generated application - **springboot-example**
+
+```yaml
+
+```
+
 
 ## `springboot-demo` Project
 This is a simple springboot based Rest Controller helloworld application. It has a `Containerfile` for createing an OCI image.  The image will be built using the CI Github Actions portion of this demo.  Which will not be addressed in this document. 
