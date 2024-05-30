@@ -42,8 +42,10 @@ An <span style="color:blue">ApplicationSet</span> is simply a set of application
 
 #### Continuous Delivery Sequencing
 
+![Helm delivery sequencing](https://github.com/abryson-redhat/argocd-demo/blob/helm/images/cd_sequence_diagram_helm.png)
 
 
+![Kustomize delivery sequencing](https://github.com/abryson-redhat/argocd-demo/blob/helm/images/cd_sequence_diagram_kustomize.png)
 
 The <span style="color:blue">springboot-demo</span> application will use Helm for deployments.  Helm is a popular package management tool used by many Kubernetes shops.  
 
