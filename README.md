@@ -34,7 +34,7 @@ The second is the **ApplicationSet** controller.  It manages events triggered by
 
 An <span style="color:blue">ApplicationSet</span> is simply a set of applications.  It implements a number of [generators](https://argocd-applicationset.readthedocs.io/en/stable/Generators/).  We are primarily interested in the [Git Generator](https://argocd-applicationset.readthedocs.io/en/stable/Generators-Git/).  Specifically, the Git Directory generator.
 
-![ArgoCD decision tree](https://github.com/abryson-redhat/argocd-demo/blob/helm/images/argocd_execution_tree.png)
+![ArgoCD decision tree](https://github.com/abryson-redhat/argocd-demo/blob/helm/images/argocd_execution_context.png)
 
 <br/>
 
