@@ -4,10 +4,7 @@
 # Table of Contents
 1. [Overview](#Overview)
 2. [Architecture](#Architecture)
-3. [Third Example](#third-example)
-4. [Fourth Example](#fourth-examplehttpwwwfourthexamplecom)
-
-
+3. [Projects](#Projects)
 
 
 ## Overview
@@ -375,9 +372,11 @@ status:
 
 ```
 
+## Projects
+The [springboot-demo](https://github.com/abryson-redhat/springboot-demo) project implements CD deployments using the Helm approach.  The [springboot-postgres-demo](https://github.com/abryson-redhat/springboot-postgres-demo) project implements CD deployments using the Kustomize approach.
 
-## `springboot-demo` Project
-This is a simple springboot based Rest Controller helloworld application. It has a `Containerfile` for createing an OCI image.  The image will be built using the CI Github Actions portion of this demo.  Which will not be addressed in this document. 
+### `springboot-demo` Project
+This is a simple springboot based Rest Controller `helloworld` application. It has a `Containerfile` for creating an OCI image.  The image will be built using the [CI Github Actions](https://github.com/abryson-redhat/springboot-demo/blob/main/.github/workflows/ci.yml) portion of this demo.  Which will not be addressed in this document. 
 
 
 
@@ -389,3 +388,4 @@ This is a springboot based web application with a PostgreSQL backend.  It is imp
 - PostgreSQL back end implemented as a Kubernetes deployment.
 - springboot-postgres-application web application.  The application uses JPA for persistence.
 
+The images (springboot-postgres-demo / psql-client) will be built using the [CI Github Actions](https://github.com/abryson-redhat/springboot-postgres-demo/blob/main/.github/workflows/ci.yml) portion of this demo.  Which will not be addressed in this document.
