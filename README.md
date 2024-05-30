@@ -27,20 +27,36 @@ Within the namespace, we will have an *ArgoCD* custom resource instance.  The re
 <br/>
 
 
+### ArgoCD custom resources
+ArgoCD has 2 controllers for managing application deployment events.  The first is the **Application** controller.  It manages events triggered by Application resources.  
+
+The second is the **ApplicationSet** controller.  It manages events triggered by ApplicationSet resources. 
+
+An <span style="color:blue">ApplicationSet</span> is simply a set of applications.  It implements a number of [generators](https://argocd-applicationset.readthedocs.io/en/stable/Generators/).  We are primarily interested in the [Git Generator](https://argocd-applicationset.readthedocs.io/en/stable/Generators-Git/).  Specifically, the Git Directory generator.
+
 ![ArgoCD decision tree](https://github.com/abryson-redhat/argocd-demo/blob/helm/images/argocd_execution_tree.png)
 
 <br/>
 
 ### Deployments - Helm vs Kustomize
+
+#### Continuous Delivery Sequencing
+
+
+
+
 The <span style="color:blue">springboot-demo</span> application will use Helm for deployments.  Helm is a popular package management tool used by many Kubernetes shops.  
 
 The <span style="color:blue">springboot-postgres-demo</span> application will leverage Kustomize.  Kustomize is a popular configuration management tool that can also be used to manage deployments.
 
 The manifests for `helm` deployments will be kept in the *helm* branch of this **argocd-demo** project.  The manifests for `kustomize` will be kept in the *kustomize* branch.
 
-##### The manifests repository has the following structure:</large>
+<br/>
 
-###### Helm
+#### Helm based deployments
+The manifests repository has the following structure:
+
+
 ---
 
 
@@ -74,7 +90,10 @@ The manifests for `helm` deployments will be kept in the *helm* branch of this *
 
 <br/>
 
-###### Kustomize
+#### Kustomize based deployments
+
+The manifests repository has the following structure:
+
 ---
 
 ./gitops\
@@ -129,15 +148,12 @@ The manifests for `helm` deployments will be kept in the *helm* branch of this *
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;qa-argocd.yaml
 
 
-###### Application Set details
-ArgoCD has 2 controllers for managing application deployment events.  The first is the **Application** controller.  It manages events triggered by Application resources.  The second is the **ApplicationSet** controller.  It manages events triggered by ApplicationSet resources. 
-
-An <span style="color:blue">ApplicationSet</span> is simply a set of applications.  It implements a number of [generators](https://argocd-applicationset.readthedocs.io/en/stable/Generators/).  We are primarily interested in the [Git Generator](https://argocd-applicationset.readthedocs.io/en/stable/Generators-Git/).  Specifically, the Git Directory generator.
 
 
 
 
-###### Helm based deployments
+
+###### Helm ArgoCD manifests
 At the top of the ArgoCD execution tree is a root application. It points to an ApplicationSet that generates Application instances.
 
 Each instance is created for a given folder listed in the parent path.  
@@ -206,14 +222,178 @@ spec:
         - CreateNamespace=false
 ```
 
-> Auto-generated application
+
+> Auto-generated application - **springboot-example**
 
 ```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  creationTimestamp: "2024-05-29T14:55:13Z"
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+  generation: 333
+  name: springboot-demo
+  namespace: appteam1-demo-dev
+  ownerReferences:
+  - apiVersion: argoproj.io/v1alpha1
+    blockOwnerDeletion: true
+    controller: true
+    kind: ApplicationSet
+    name: appteam1-apps-helm-dev
+    uid: de7f96df-2d41-445f-a244-47919f2b9a81
+  resourceVersion: "600471"
+  uid: 1485dc1a-5f94-4608-83b7-6d2d927162a9
+spec:
+  destination:
+    namespace: appteam1-demo-dev
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    helm:
+      valueFiles:
+      - configs/dev/values.yaml
+    path: gitops/manifests/busunit1/integration/teams/appteam1/apps/springboot-demo
+    repoURL: https://github.com/abryson-redhat/argocd-demo.git
+    targetRevision: helm
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=false
+status:
+  controllerNamespace: appteam1-demo-dev
+  health:
+    status: Healthy
+  history:
+  - deployStartedAt: "2024-05-29T14:55:41Z"
+    deployedAt: "2024-05-29T14:55:41Z"
+    id: 0
+    revision: 4c59f8af1b70f5a02417b6c85209e28a6d792222
+    source:
+      helm:
+        valueFiles:
+        - configs/dev/values.yaml
+      path: gitops/manifests/busunit1/integration/teams/appteam1/apps/springboot-demo
+      repoURL: https://github.com/abryson-redhat/argocd-demo.git
+      targetRevision: helm
+  operationState:
+    finishedAt: "2024-05-29T14:55:41Z"
+    message: successfully synced (all tasks run)
+    operation:
+      initiatedBy:
+        username: admin
+      retry: {}
+      sync:
+        prune: true
+        revision: 4c59f8af1b70f5a02417b6c85209e28a6d792222
+        syncOptions:
+        - CreateNamespace=false
+        syncStrategy:
+          hook: {}
+    phase: Succeeded
+    startedAt: "2024-05-29T14:55:41Z"
+    syncResult:
+      resources:
+      - group: ""
+        hookPhase: Running
+        kind: ServiceAccount
+        message: serviceaccount/springboot-demo created
+        name: springboot-demo
+        namespace: appteam1-demo-dev
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      - group: ""
+        hookPhase: Running
+        kind: Service
+        message: service/springboot-demo created
+        name: springboot-demo
+        namespace: appteam1-demo-dev
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      - group: apps
+        hookPhase: Running
+        kind: Deployment
+        message: deployment.apps/springboot-demo created
+        name: springboot-demo
+        namespace: appteam1-demo-dev
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      - group: route.openshift.io
+        hookPhase: Running
+        kind: Route
+        message: route.route.openshift.io/springboot-demo created
+        name: springboot-demo
+        namespace: appteam1-demo-dev
+        status: Synced
+        syncPhase: Sync
+        version: v1
+      revision: 4c59f8af1b70f5a02417b6c85209e28a6d792222
+      source:
+        helm:
+          valueFiles:
+          - configs/dev/values.yaml
+        path: gitops/manifests/busunit1/integration/teams/appteam1/apps/springboot-demo
+        repoURL: https://github.com/abryson-redhat/argocd-demo.git
+        targetRevision: helm
+  reconciledAt: "2024-05-30T16:55:15Z"
+  resources:
+  - health:
+      status: Healthy
+    kind: Service
+    name: springboot-demo
+    namespace: appteam1-demo-dev
+    status: Synced
+    version: v1
+  - kind: ServiceAccount
+    name: springboot-demo
+    namespace: appteam1-demo-dev
+    status: Synced
+    version: v1
+  - group: apps
+    health:
+      status: Healthy
+    kind: Deployment
+    name: springboot-demo
+    namespace: appteam1-demo-dev
+    status: Synced
+    version: v1
+  - group: route.openshift.io
+    health:
+      message: Route is healthy
+      status: Healthy
+    kind: Route
+    name: springboot-demo
+    namespace: appteam1-demo-dev
+    status: Synced
+    version: v1
+  sourceType: Helm
+  summary:
+    images:
+    - nexus-registry-nexus.apps.cluster-bcttf.dynamic.redhatworkshops.io/repository/smbc-demo/springboot-demo:latest
+  sync:
+    comparedTo:
+      destination:
+        namespace: appteam1-demo-dev
+        server: https://kubernetes.default.svc
+      source:
+        helm:
+          valueFiles:
+          - configs/dev/values.yaml
+        path: gitops/manifests/busunit1/integration/teams/appteam1/apps/springboot-demo
+        repoURL: https://github.com/abryson-redhat/argocd-demo.git
+        targetRevision: helm
+    revision: 72de7430c679cd7e781ccc2eeee029b90cb2eda6
+    status: Synced
 
 ```
 
 ## `springboot-demo` Project
 This is a simple springboot based Rest Controller helloworld application. It has a `Containerfile` for createing an OCI image.  The image will be built using the CI Github Actions portion of this demo.  Which will not be addressed in this document. 
+
+
+
 
 
 
