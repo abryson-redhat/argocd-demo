@@ -238,10 +238,8 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  creationTimestamp: "2024-05-29T14:55:13Z"
   finalizers:
   - resources-finalizer.argocd.argoproj.io
-  generation: 333
   name: springboot-demo
   namespace: appteam1-demo-dev
   ownerReferences:
@@ -251,8 +249,6 @@ metadata:
     kind: ApplicationSet
     name: appteam1-apps-helm-dev
     uid: de7f96df-2d41-445f-a244-47919f2b9a81
-  resourceVersion: "600471"
-  uid: 1485dc1a-5f94-4608-83b7-6d2d927162a9
 spec:
   destination:
     namespace: appteam1-demo-dev
@@ -269,132 +265,7 @@ spec:
     syncOptions:
     - CreateNamespace=false
 status:
-  controllerNamespace: appteam1-demo-dev
-  health:
-    status: Healthy
-  history:
-  - deployStartedAt: "2024-05-29T14:55:41Z"
-    deployedAt: "2024-05-29T14:55:41Z"
-    id: 0
-    revision: 4c59f8af1b70f5a02417b6c85209e28a6d792222
-    source:
-      helm:
-        valueFiles:
-        - configs/dev/values.yaml
-      path: gitops/manifests/busunit1/integration/teams/appteam1/apps/springboot-demo
-      repoURL: https://github.com/abryson-redhat/argocd-demo.git
-      targetRevision: helm
-  operationState:
-    finishedAt: "2024-05-29T14:55:41Z"
-    message: successfully synced (all tasks run)
-    operation:
-      initiatedBy:
-        username: admin
-      retry: {}
-      sync:
-        prune: true
-        revision: 4c59f8af1b70f5a02417b6c85209e28a6d792222
-        syncOptions:
-        - CreateNamespace=false
-        syncStrategy:
-          hook: {}
-    phase: Succeeded
-    startedAt: "2024-05-29T14:55:41Z"
-    syncResult:
-      resources:
-      - group: ""
-        hookPhase: Running
-        kind: ServiceAccount
-        message: serviceaccount/springboot-demo created
-        name: springboot-demo
-        namespace: appteam1-demo-dev
-        status: Synced
-        syncPhase: Sync
-        version: v1
-      - group: ""
-        hookPhase: Running
-        kind: Service
-        message: service/springboot-demo created
-        name: springboot-demo
-        namespace: appteam1-demo-dev
-        status: Synced
-        syncPhase: Sync
-        version: v1
-      - group: apps
-        hookPhase: Running
-        kind: Deployment
-        message: deployment.apps/springboot-demo created
-        name: springboot-demo
-        namespace: appteam1-demo-dev
-        status: Synced
-        syncPhase: Sync
-        version: v1
-      - group: route.openshift.io
-        hookPhase: Running
-        kind: Route
-        message: route.route.openshift.io/springboot-demo created
-        name: springboot-demo
-        namespace: appteam1-demo-dev
-        status: Synced
-        syncPhase: Sync
-        version: v1
-      revision: 4c59f8af1b70f5a02417b6c85209e28a6d792222
-      source:
-        helm:
-          valueFiles:
-          - configs/dev/values.yaml
-        path: gitops/manifests/busunit1/integration/teams/appteam1/apps/springboot-demo
-        repoURL: https://github.com/abryson-redhat/argocd-demo.git
-        targetRevision: helm
-  reconciledAt: "2024-05-30T16:55:15Z"
-  resources:
-  - health:
-      status: Healthy
-    kind: Service
-    name: springboot-demo
-    namespace: appteam1-demo-dev
-    status: Synced
-    version: v1
-  - kind: ServiceAccount
-    name: springboot-demo
-    namespace: appteam1-demo-dev
-    status: Synced
-    version: v1
-  - group: apps
-    health:
-      status: Healthy
-    kind: Deployment
-    name: springboot-demo
-    namespace: appteam1-demo-dev
-    status: Synced
-    version: v1
-  - group: route.openshift.io
-    health:
-      message: Route is healthy
-      status: Healthy
-    kind: Route
-    name: springboot-demo
-    namespace: appteam1-demo-dev
-    status: Synced
-    version: v1
-  sourceType: Helm
-  summary:
-    images:
-    - nexus-registry-nexus.apps.cluster-bcttf.dynamic.redhatworkshops.io/repository/smbc-demo/springboot-demo:latest
-  sync:
-    comparedTo:
-      destination:
-        namespace: appteam1-demo-dev
-        server: https://kubernetes.default.svc
-      source:
-        helm:
-          valueFiles:
-          - configs/dev/values.yaml
-        path: gitops/manifests/busunit1/integration/teams/appteam1/apps/springboot-demo
-        repoURL: https://github.com/abryson-redhat/argocd-demo.git
-        targetRevision: helm
-    revision: 72de7430c679cd7e781ccc2eeee029b90cb2eda6
-    status: Synced
+ ...
 
 ```
 
@@ -410,18 +281,97 @@ The traditional base / overlay directory structure is implemented for this examp
 > **Root Application**
 
 ```yaml
-
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+  name: appteam1-root-kustomize-dev
+  namespace: appteam1-demo-dev
+  labels:
+    demo/team.display.level: root-kustomize
+spec:
+  destination:
+    namespace: appteam1-demo-dev
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: gitops/manifests/busunit1/integration/teams/appteam1/apps/appset
+    repoURL: git@github.com:abryson-redhat/argocd-demo.git
+    targetRevision: kustomize
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
 ```
 
 > **ApplicationSet**
 ```yaml
-
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: appteam1-apps-kustomize-dev
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+  - git:
+      repoURL: https://github.com/abryson-redhat/argocd-demo.git
+      revision: kustomize
+      directories:
+      - path: gitops/manifests/busunit1/integration/teams/appteam1/apps/*
+      - exclude: true
+        path: gitops/manifests/busunit1/integration/teams/appteam1/apps/appset
+  template:
+    metadata:
+      name: '{{.path.basename}}'
+    spec:
+      project: "default"
+      source:
+        repoURL: https://github.com/abryson-redhat/argocd-demo.git
+        targetRevision: kustomize
+        path: '{{.path.path}}/overlays/dev'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: appteam1-demo-dev
+      syncPolicy:
+        syncOptions:
+        - CreateNamespace=false
 ```
 
 
-> Auto-generated application - **springboot-example**
+> Auto-generated application - **springboot-postgres-example**
 
 ```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+  generation: 339
+  name: springboot-postgres-demo
+  namespace: appteam1-demo-dev
+  ownerReferences:
+  - apiVersion: argoproj.io/v1alpha1
+    blockOwnerDeletion: true
+    controller: true
+    kind: ApplicationSet
+    name: appteam1-apps-kustomize-dev
+    uid: 70c23a2d-c92a-4c17-a819-015090304d84
+spec:
+  destination:
+    namespace: appteam1-demo-dev
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: gitops/manifests/busunit1/integration/teams/appteam1/apps/springboot-postgres-demo/overlays/dev
+    repoURL: https://github.com/abryson-redhat/argocd-demo.git
+    targetRevision: kustomize
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=false
+status:
+...
 
 ```
 
